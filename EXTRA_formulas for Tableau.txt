@@ -58,7 +58,11 @@ SCRIPT_INT(" m <- cbind(.arg1, .arg2);
 kmeans(m,4,nstart=5) $cluster",
 AVG([Life Expectancy Female]), AVG([Life Expectancy Male]))
 
+***NOTE - Tableau allows NULLS and tells you that you have them.  R is intolerant of NULLS. To get through this exercise 
+easily, Drag "Infant Mortality Rate" and "Birth Rate" fields to the FILTER shelf - be sure that you are using NON NUll for both
+(Special Non Null Values)
 
+Still throws an error - must change Country/Computed By to "Compute Using - Country". 
 
 
 

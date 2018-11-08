@@ -1,0 +1,69 @@
+URL
+https://www.r-project.org/
+
+Code:
+
+rownames(installed.packages())
+
+install.packages("Rserve")
+
+library(Rserve); Rserve()
+
+
+Formulas:
+Native Tableau Functions
+Tab Avg
+WINDOW_AVG(Sum(Sales))
+Tab Median
+WINDOW_MEDIAN(Sum(Sales))
+Tab Stdev
+WINDOW_STDEV(Sum(Sales))
+
+R Functions
+R Mean
+SCRIPT_INT("mean(.arg1)", Sum(Sales))
+
+R Median
+SCRIPT_INT("median(.arg1)", Sum(Sales))
+
+R sd
+SCRIPT_INT("sd(.arg1)", Sum(Sales))
+
+=========================
+P_S__Correlation EXAMPLE
+
+Name this:  P_S_Correlation
+SCRIPT_REAL("cor(.arg1, .arg2)", SUM(Sales), SUM(Profit))
+
+Name this: Negative_P_S_Correlation
+WINDOW_MAX([P_S_Correlation]) < 0
+
+==================
+REGRESSION ANALYSIS EXAMPLE
+
+NAME THIS: Profit Expected
+SCRIPT_REAL("x <- 1m(.arg1 - .arg2 + .arg3 + .arg4) x$fitted", SUM(Profit), COUNT(Quantity), SUM (Sales), AVG(Discount))
+
+Name This: % Diff
+Sum(Profit)/ Profit_Expected - 1
+
+Name  This: Profit Expected Residuals
+SCRIPT_REAL("x <- 1m(.arg1 - .arg2 + .arg3 + .arg4) x$residuals", SUM(Profit), COUNT(Quantity), SUM (Sales), AVG(Discount))
+
+===========
+Clustering Example
+Use World Indicator Data
+In Tableau:
+SCRIPT_INT(" m <- cbind(.arg1, .arg2);
+kmeans(m,4,nstart=5) $cluster",
+AVG([Life Expectancy Female]), AVG([Life Expectancy Male]))
+
+
+
+
+
+
+
+
+
+

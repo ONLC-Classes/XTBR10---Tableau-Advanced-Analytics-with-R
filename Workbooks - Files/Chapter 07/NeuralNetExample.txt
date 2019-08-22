@@ -1,0 +1,148 @@
+Find this code at:
+https://www.r-exercises.com/2017/11/17/iris-neural-network-solutions/
+
+
+Here is the example:
+###############
+
+#             #
+
+# Exercise 1  #
+
+#             #
+
+###############
+
+install.packages("neuralnet")
+## Error in contrib.url(https://www.r-exercises.com/2017/11/17/iris-neural-network-solutions/repos, type): trying to use CRAN without setting a mirror
+library(neuralnet)
+library(ggplot2)
+library(nnet)
+library(dplyr)
+library(reshape2)
+
+data("iris")
+
+set.seed(123)
+###############
+
+#             #
+# Exercise 2  #
+
+#             #
+
+###############
+
+exploratory_iris <- melt(iris)
+exploratory_iris %>%
+  ggplot(aes(x = factor(variable), y = value)) +
+  geom_violin() +
+  geom_jitter(height = 0, width = 0.1, aes(colour = Species), alpha = 0.7) +
+  theme_minimal()
+###############
+
+#             #
+
+# Exercise 3  #
+
+#             #
+
+###############
+
+labels <- class.ind(as.factor(iris$Species))
+
+###############
+
+#             #
+
+# Exercise 4  #
+
+#             #
+
+###############
+
+standardiser <- function(x){
+  (x-min(x))/(max(x)-min(x))
+}
+
+###############
+# Exercise 5  #
+
+#             #
+
+###############
+
+iris[, 1:4] <- lapply(iris[, 1:4], standardiser)
+
+###############
+
+#             #
+
+# Exercise 6  #
+
+#             #
+
+###############
+
+pre_process_iris <- cbind(iris[,1:4], labels)
+
+###############
+
+#             #
+
+# Exercise 7  #
+
+#             #
+
+###############
+
+f <- as.formula("setosa + versicolor + virginica ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width")
+
+###############
+
+#             #
+
+# Exercise 8  #
+
+#             #
+
+###############
+
+iris_net <- neuralnet(f, data = pre_process_iris, hidden = c(16, 12), act.fct = "tanh", linear.output = FALSE)
+
+###############
+#             #
+
+# Exercise 9  #
+
+#             #
+
+###############
+
+plot(iris_net)
+
+################
+
+#              #
+
+# Exercise 10  #
+
+#              #
+
+################
+
+iris_preds <- compute(iris_net, pre_process_iris[, 1:4])
+origi_vals <- max.col(pre_process_iris[, 5:7])
+pr.nn_2 <- max.col(iris_preds$net.result)
+print(paste("Model Accuracy: ", round(mean(pr.nn_2==origi_vals)*100, 2), "%.", sep = ""))
+"Model Accuracy: 100%."
+
+
+
+
+
+
+
+
+
+
